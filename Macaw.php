@@ -65,6 +65,9 @@ class Macaw
             $uri = $_GET["path"];
         } else {
             $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            if (stripos($_SERVER['SCRIPT_NAME'], $uri) !== FALSE) {
+                $uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+            }
         }
         $method = $_SERVER['REQUEST_METHOD'];  
 
