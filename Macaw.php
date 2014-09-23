@@ -35,7 +35,7 @@ class Macaw
     public static function __callstatic($method, $params) 
     {
         
-        $uri = dirname($_SERVER['PHP_SELF']).$params[0];
+        $uri = $params[0];
         $callback = $params[1];
 
         array_push(self::$routes, $uri);
@@ -61,7 +61,11 @@ class Macaw
      */
     public static function dispatch()
     {
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        if (array_key_exists("path", $_GET)) {
+            $uri = $_GET["path"];
+        } else {
+            $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        }
         $method = $_SERVER['REQUEST_METHOD'];  
 
         $searches = array_keys(static::$patterns);
